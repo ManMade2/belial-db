@@ -1,8 +1,9 @@
 from typing import Any
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .relationships import Base, MapAssetFileAssociation
+from .map import Map
 
 
 class AssetFile(Base):
@@ -21,13 +22,15 @@ class AssetFile(Base):
 
     __tablename__ = "asset_files"
 
-    Id = Column(Integer, primary_key=True)
-    Path = Column(String, nullable=False)
-    Type = Column(String, nullable=False)
-    DoodadSetIndex = Column(Integer, nullable=False)
-    DoodadSetNames = Column(String, nullable=True)
+    Id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    Path: Mapped[str] = mapped_column(String, nullable=False)
+    Type: Mapped[str] = mapped_column(String, nullable=False)
+    DoodadSetIndex: Mapped[int] = mapped_column(Integer, nullable=False)
+    DoodadSetNames: Mapped[str] = mapped_column(String, nullable=True)
 
-    Maps = relationship("Map", secondary=MapAssetFileAssociation, back_populates="AssetFiles")
+    Maps: Mapped[list[Map]] = relationship(
+        "Map", secondary=MapAssetFileAssociation, back_populates="AssetFiles"
+    )
 
     def __eq__(self, other: Any):
         if not isinstance(other, AssetFile):

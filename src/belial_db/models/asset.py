@@ -1,6 +1,6 @@
 from typing import Any
-from sqlalchemy import Column, Integer, String, Float
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, String, Float
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .relationships import Base, MapAssetAssociation
 from .vector3_type import Vector3Type
@@ -24,13 +24,13 @@ class Asset(Base):
 
     __tablename__ = "assets"
 
-    Id = Column(Integer, primary_key=True)
-    AssetFileId = Column(Integer, nullable=False)
-    Path = Column(String, nullable=False)
-    Type = Column(String, nullable=False)
-    ScaleFactor = Column(Float(), nullable=False)
-    Position = Column(Vector3Type, nullable=False)
-    Rotation = Column(Vector4Type, nullable=False)
+    Id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    AssetFileId: Mapped[int] = mapped_column(Integer, nullable=False)
+    Path: Mapped[str] = mapped_column(String, nullable=False)
+    Type: Mapped[str] = mapped_column(String, nullable=False)
+    ScaleFactor: Mapped[float] = mapped_column(Float(), nullable=False)
+    Position: Mapped[Vector3Type] = mapped_column(Vector3Type, nullable=False)
+    Rotation: Mapped[Vector4Type] = mapped_column(Vector4Type, nullable=False)
 
     Maps = relationship("Map", secondary=MapAssetAssociation, back_populates="Assets")
 
