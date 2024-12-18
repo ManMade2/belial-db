@@ -11,6 +11,6 @@ class Vector3(BaseModel):
         z (float): The z-coordinate of the vector.
     """
 
-    x: float
-    y: float
-    z: float
+    X: float
+    Y: float
+    Z: float
