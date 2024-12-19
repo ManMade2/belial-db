@@ -43,6 +43,4 @@ class Asset(Base):
         return hash(self.Id)
 
     def __repr__(self):
-        return (
-            f"<Asset(Id={self.Id}, Path='{self.Path}', Type='{self.Type}', ScaleFactor={self.ScaleFactor})>"
-        )
+        return f"<Asset(Id={self.Id}, Path='{self.Path}', Type='{self.Type}', ScaleFactor={self.ScaleFactor})>"

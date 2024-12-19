@@ -1,10 +1,12 @@
-from typing import Any
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import Mapped, relationship
+from typing import Any, TYPE_CHECKING
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .relationships import Base, MapAssetAssociation, MapAssetFileAssociation
-from .asset import Asset
-from .asset_file import AssetFile
+
+if TYPE_CHECKING:
+    from .asset import Asset
+    from .asset_file import AssetFile
 
 
 class Map(Base):
@@ -19,11 +21,13 @@ class Map(Base):
 
     __tablename__ = "maps"
 
-    Id = Column(Integer, primary_key=True, nullable=False)
-    Name = Column(String, nullable=False)
+    Id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
+    Name: Mapped[str] = mapped_column(String, nullable=False)
 
-    Assets: Mapped[list[Asset]] = relationship("Asset", secondary=MapAssetAssociation, back_populates="Maps")
-    AssetFiles: Mapped[list[AssetFile]] = relationship(
+    Assets: Mapped[list["Asset"]] = relationship(
+        "Asset", secondary=MapAssetAssociation, back_populates="Maps"
+    )
+    AssetFiles: Mapped[list["AssetFile"]] = relationship(
         "AssetFile", secondary=MapAssetFileAssociation, back_populates="Maps"
     )
 

@@ -1,4 +1,4 @@
-from belial_db.models import MapModel, AssetModel
+from belial_db.models import MapModel, AssetModel  # type: ignore
 from belial_db.repos import MapRepo, AssetRepo
 
 from belial_db import create_connection
