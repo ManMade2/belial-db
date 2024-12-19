@@ -52,7 +52,7 @@ class AssetFileRepo:
         :param id: The ID of the asset file to delete.
         """
         with Session(self._engine) as session:
-            asset_file = session.query(AssetFileModel).filter(AssetFileModel.Id == id).first()
+            asset_file = session.query(AssetFileModel).filter(AssetFileModel.id == id).first()
             if asset_file:
                 session.delete(asset_file)
                 session.commit()

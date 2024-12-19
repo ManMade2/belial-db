@@ -68,7 +68,7 @@ class AssetRepo:
         :param id: The ID of the asset to delete.
         """
         with Session(self._engine) as session:
-            asset = session.query(AssetModel).filter(AssetModel.Id == id).first()
+            asset = session.query(AssetModel).filter(AssetModel.id == id).first()
             if asset:
                 session.delete(asset)
                 session.commit()

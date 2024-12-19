@@ -25,8 +25,8 @@ class MapRepo:
         with Session(self._engine) as session:
             return (
                 session.query(MapModel)
-                .options(joinedload(MapModel.Assets), joinedload(MapModel.AssetFiles))
-                .filter(MapModel.Id == id)
+                .options(joinedload(MapModel.assets), joinedload(MapModel.asset_files))
+                .filter(MapModel.id == id)
                 .first()
             )
 
@@ -43,14 +43,14 @@ class MapRepo:
             new_assets: list[AssetModel] = []
 
             for asset in map.Assets:
-                existing_asset = session.query(AssetModel).filter(AssetModel.Id == asset.Id).first()
+                existing_asset = session.query(AssetModel).filter(AssetModel.id == asset.id).first()
                 if existing_asset is None:
                     new_assets.append(asset)
 
             new_files: list[AssetFileModel] = []
 
             for file in map.AssetFiles:
-                existing_files = session.query(AssetFileModel).filter(AssetFileModel.Id == file.Id).first()
+                existing_files = session.query(AssetFileModel).filter(AssetFileModel.id == file.id).first()
                 if existing_files is None:
                     new_files.append(file)
 
@@ -84,5 +84,5 @@ class MapRepo:
             id (int): The ID of the map to delete.
         """
         with Session(self._engine) as session:
-            session.query(MapModel).filter(MapModel.Id == id).delete()
+            session.query(MapModel).filter(MapModel.id == id).delete()
             session.commit()

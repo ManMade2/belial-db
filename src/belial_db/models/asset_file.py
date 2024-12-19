@@ -30,7 +30,7 @@ class AssetFile(Base):
     doodad_set_index: Mapped[int] = mapped_column(Integer, nullable=False)
     doodad_set_names: Mapped[str] = mapped_column(String, nullable=True)
 
-    maps: Mapped[list[Map]] = relationship(
+    maps: Mapped[list["Map"]] = relationship(
         "Map", secondary=MapAssetFileAssociation, back_populates="asset_files"
     )
 

@@ -3,7 +3,7 @@ from belial_db.repos import MapRepo, AssetRepo
 
 from belial_db import create_connection
 
-DATABASE_URL = "sqlite:///file.db"
+DATABASE_URL = "sqlite:///:memory:"
 engine = create_connection(DATABASE_URL, echo=True)
 
 map = MapModel()
