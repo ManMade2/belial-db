@@ -1,9 +1,11 @@
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from sqlalchemy import Integer, String
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .relationships import Base, MapAssetFileAssociation
-from .map import Map
+
+if TYPE_CHECKING:
+    from .map import Map
 
 
 class AssetFile(Base):
@@ -11,34 +13,34 @@ class AssetFile(Base):
     Represents an asset file in the database.
 
     Attributes:
-        Id (int): The primary key for the asset file.
-        Path (str): The file path of the asset.
-        Type (str): The type of the asset.
-        DoodadSetIndex (int): The index of the doodad set.
-        DoodadSetNames (str): The names of the doodad sets.
-        MapId (int): The foreign key referencing the associated map.
-        Map (Mapped[MapModel]): The relationship to the MapModel.
+        id (int): The primary key for the asset file.
+        path (str): The file path of the asset.
+        type (str): The type of the asset.
+        doodad_set_index (int): The index of the doodad set.
+        doodad_set_names (str): The names of the doodad sets.
+        map_id (int): The foreign key referencing the associated map.
+        map (Mapped[MapModel]): The relationship to the MapModel.
     """
 
     __tablename__ = "asset_files"
 
-    Id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    Path: Mapped[str] = mapped_column(String, nullable=False)
-    Type: Mapped[str] = mapped_column(String, nullable=False)
-    DoodadSetIndex: Mapped[int] = mapped_column(Integer, nullable=False)
-    DoodadSetNames: Mapped[str] = mapped_column(String, nullable=True)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    path: Mapped[str] = mapped_column(String, nullable=False)
+    type: Mapped[str] = mapped_column(String, nullable=False)
+    doodad_set_index: Mapped[int] = mapped_column(Integer, nullable=False)
+    doodad_set_names: Mapped[str] = mapped_column(String, nullable=True)
 
-    Maps: Mapped[list[Map]] = relationship(
-        "Map", secondary=MapAssetFileAssociation, back_populates="AssetFiles"
+    maps: Mapped[list[Map]] = relationship(
+        "Map", secondary=MapAssetFileAssociation, back_populates="asset_files"
     )
 
     def __eq__(self, other: Any):
         if not isinstance(other, AssetFile):
             return NotImplemented
-        return self.Id == other.Id
+        return self.id == other.id
 
     def __hash__(self):
-        return hash(self.Id)
+        return hash(self.id)
 
     def __repr__(self):
-        return f"<AssetFile(Id={self.Id}, Path='{self.Path}', Type='{self.Type}', DoodadSetIndex={self.DoodadSetIndex})>"
+        return f"<AssetFile(id={self.id}, path='{self.path}', type='{self.type}', doodad_set_index={self.doodad_set_index})>"

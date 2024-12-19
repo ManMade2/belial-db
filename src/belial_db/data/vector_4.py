@@ -12,7 +12,7 @@ class Vector4(BaseModel):
         w (float): The w-coordinate of the vector.
     """
 
-    X: float
-    Y: float
-    Z: float
-    W: float
+    x: float
+    y: float
+    z: float
+    w: float

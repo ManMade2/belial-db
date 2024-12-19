@@ -1,7 +1,7 @@
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 
-from belial_db.models import AssetModel
+from belial_db.models import AssetModel, MapModel
 
 
 class AssetRepo:
@@ -25,11 +25,17 @@ class AssetRepo:
         :return: The AssetModel instance if found, otherwise None.
         """
         with Session(self._engine) as session:
-            return session.query(AssetModel).filter(AssetModel.Id == id).first()
+            return session.query(AssetModel).filter(AssetModel.id == id).first()
 
     def get_assets(self, map_id: int) -> list[AssetModel]:
+        """
+        Retrieves all assets linked with a specific map.
+
+        :param map_id: The ID of the map to retrieve assets for.
+        :return: A list of AssetModel instances linked with the specified map.
+        """
         with Session(self._engine) as session:
-            return session.query(AssetModel).filter(AssetModel.MapId == map_id).all()
+            return session.query(AssetModel).join(AssetModel.maps).filter(MapModel.id == map_id).all()
 
     def create_asset(self, asset: AssetModel) -> AssetModel:
         """

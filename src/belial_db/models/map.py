@@ -21,23 +21,23 @@ class Map(Base):
 
     __tablename__ = "maps"
 
-    Id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
-    Name: Mapped[str] = mapped_column(String, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, nullable=False)
+    name: Mapped[str] = mapped_column(String, nullable=False)
 
-    Assets: Mapped[list["Asset"]] = relationship(
-        "Asset", secondary=MapAssetAssociation, back_populates="Maps"
+    assets: Mapped[list["Asset"]] = relationship(
+        "Asset", secondary=MapAssetAssociation, back_populates="maps"
     )
-    AssetFiles: Mapped[list["AssetFile"]] = relationship(
-        "AssetFile", secondary=MapAssetFileAssociation, back_populates="Maps"
+    asset_files: Mapped[list["AssetFile"]] = relationship(
+        "AssetFile", secondary=MapAssetFileAssociation, back_populates="maps"
     )
 
     def __eq__(self, other: Any):
         if not isinstance(other, Map):
             return NotImplemented
-        return self.Id == other.Id
+        return self.id == other.id
 
     def __hash__(self):
-        return hash(self.Id)
+        return hash(self.id)
 
     def __repr__(self):
-        return f"<Map(Id={self.Id}, Name='{self.Name}')>"
+        return f"<Map(id={self.id}, name='{self.name}')>"

@@ -11,13 +11,13 @@ Base = declarative_base()
 MapAssetAssociation = Table(
     "map_asset_association",
     Base.metadata,
-    Column("MapId", Integer, ForeignKey("maps.Id"), primary_key=True),
-    Column("AssetId", Integer, ForeignKey("assets.Id"), primary_key=True),
+    Column("map_id", Integer, ForeignKey("maps.id"), primary_key=True),
+    Column("asset_id", Integer, ForeignKey("assets.id"), primary_key=True),
 )
 
 MapAssetFileAssociation = Table(
     "map_assetfile_association",
     Base.metadata,
-    Column("MapId", Integer, ForeignKey("maps.Id"), primary_key=True),
-    Column("AssetFileId", Integer, ForeignKey("asset_files.Id"), primary_key=True),
+    Column("map_id", Integer, ForeignKey("maps.id"), primary_key=True),
+    Column("asset_file_id", Integer, ForeignKey("asset_files.id"), primary_key=True),
 )

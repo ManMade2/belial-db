@@ -1,7 +1,7 @@
 from sqlalchemy import Engine
 from sqlalchemy.orm import Session
 
-from belial_db.models import AssetFileModel
+from belial_db.models import AssetFileModel, MapModel
 
 
 class AssetFileRepo:
@@ -19,7 +19,7 @@ class AssetFileRepo:
 
     def get_asset_files(self, map_id: int) -> list[AssetFileModel]:
         with Session(self._engine) as session:
-            return session.query(AssetFileModel).filter(AssetFileModel.MapId == map_id).all()
+            return session.query(AssetFileModel).join(AssetFileModel.maps).filter(MapModel.id == map_id).all()
 
     def create_asset_file(self, asset_file: AssetFileModel) -> AssetFileModel:
         """

@@ -1,46 +1,51 @@
-from typing import Any
+from typing import Any, TYPE_CHECKING
 from sqlalchemy import Integer, String, Float
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from .relationships import Base, MapAssetAssociation
-from .vector3_type import Vector3Type
-from .vector4_type import Vector4Type
+from .vector_3_type import Vector3Type
+from .vector_4_type import Vector4Type
+
+if TYPE_CHECKING:
+    from .map import Map
 
 
 class Asset(Base):
     """Represents an asset in the game.
 
     Attributes:
-        Id (int): The primary key for the asset.
-        AssetFileId (int): The ID of the associated asset file.
-        Path (str): The file path of the asset.
-        Type (str): The type of the asset (e.g., model, texture).
-        ScaleFactor (float): The scale factor for the asset.
-        Position (Vector3Type): The 3D position of the asset in the game world.
-        Rotation (Vector4Type): The rotation of the asset represented as a quaternion.
-        MapId (int): The ID of the map where the asset is located.
-        Map (MapModel): The map model associated with this asset.
+        id (int): The primary key for the asset.
+        asset_file_id (int): The ID of the associated asset file.
+        path (str): The file path of the asset.
+        type (str): The type of the asset (e.g., model, texture).
+        scale_factor (float): The scale factor for the asset.
+        position (Vector3Type): The 3D position of the asset in the game world.
+        rotation (Vector4Type): The rotation of the asset represented as a quaternion.
+        map_id (int): The ID of the map where the asset is located.
+        map (MapModel): The map model associated with this asset.
     """
 
     __tablename__ = "assets"
 
-    Id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    AssetFileId: Mapped[int] = mapped_column(Integer, nullable=False)
-    Path: Mapped[str] = mapped_column(String, nullable=False)
-    Type: Mapped[str] = mapped_column(String, nullable=False)
-    ScaleFactor: Mapped[float] = mapped_column(Float(), nullable=False)
-    Position: Mapped[Vector3Type] = mapped_column(Vector3Type, nullable=False)
-    Rotation: Mapped[Vector4Type] = mapped_column(Vector4Type, nullable=False)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    asset_file_id: Mapped[int] = mapped_column(Integer, nullable=False)
+    path: Mapped[str] = mapped_column(String, nullable=False)
+    type: Mapped[str] = mapped_column(String, nullable=False)
+    scale_factor: Mapped[float] = mapped_column(Float(), nullable=False)
+    position: Mapped[Vector3Type] = mapped_column(Vector3Type, nullable=False)
+    rotation: Mapped[Vector4Type] = mapped_column(Vector4Type, nullable=False)
 
-    Maps = relationship("Map", secondary=MapAssetAssociation, back_populates="Assets")
+    maps: Mapped[list["Map"]] = relationship("Map", secondary=MapAssetAssociation, back_populates="assets")
 
     def __eq__(self, other: Any):
         if not isinstance(other, Asset):
             return NotImplemented
-        return self.Id == other.Id
+        return self.id == other.id
 
     def __hash__(self):
-        return hash(self.Id)
+        return hash(self.id)
 
     def __repr__(self):
-        return f"<Asset(Id={self.Id}, Path='{self.Path}', Type='{self.Type}', ScaleFactor={self.ScaleFactor})>"
+        return (
+            f"<Asset(id={self.id}, path='{self.path}', type='{self.type}', scale_factor={self.scale_factor})>"
+        )
