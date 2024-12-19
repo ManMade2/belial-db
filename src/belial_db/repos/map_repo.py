@@ -1,5 +1,5 @@
 from sqlalchemy import Engine
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
 from belial_db.models import MapModel, AssetModel, AssetFileModel
 
@@ -23,12 +23,7 @@ class MapRepo:
             MapModel | None: The map model if found, otherwise None.
         """
         with Session(self._engine) as session:
-            return (
-                session.query(MapModel)
-                .options(joinedload(MapModel.assets), joinedload(MapModel.asset_files))
-                .filter(MapModel.id == id)
-                .first()
-            )
+            return session.query(MapModel).filter(MapModel.id == id).first()
 
     def create_map(self, map: MapModel) -> MapModel:
         """Create a new map in the database.
