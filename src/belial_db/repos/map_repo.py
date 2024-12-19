@@ -42,14 +42,14 @@ class MapRepo:
         with Session(self._engine) as session:
             new_assets: list[AssetModel] = []
 
-            for asset in map.Assets:
+            for asset in map.assets:
                 existing_asset = session.query(AssetModel).filter(AssetModel.id == asset.id).first()
                 if existing_asset is None:
                     new_assets.append(asset)
 
             new_files: list[AssetFileModel] = []
 
-            for file in map.AssetFiles:
+            for file in map.asset_files:
                 existing_files = session.query(AssetFileModel).filter(AssetFileModel.id == file.id).first()
                 if existing_files is None:
                     new_files.append(file)
@@ -57,8 +57,8 @@ class MapRepo:
             print(f"Adding {len(new_assets)} new assets.")
             print(f"Adding {len(new_files)} new files.")
 
-            map.Assets = new_assets
-            map.AssetFiles = new_files
+            map.assets = new_assets
+            map.asset_files = new_files
             session.add(map)
             session.commit()
             return map
