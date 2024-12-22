@@ -29,7 +29,6 @@ class Asset(Base):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     asset_file_id: Mapped[int] = mapped_column(Integer, nullable=False)
-    path: Mapped[str] = mapped_column(String, nullable=False)
     type: Mapped[str] = mapped_column(String, nullable=False)
     scale_factor: Mapped[float] = mapped_column(Float(), nullable=False)
     position: Mapped[Vector3Type] = mapped_column(Vector3Type, nullable=False)

@@ -12,13 +12,3 @@ engine = create_connection(DATABASE_URL, echo=False)
 mapRepo = MapRepo(engine)
 assetRepo = AssetRepo(engine)
 assetFileRepo = AssetFileRepo(engine)
-
-print(mapRepo.get_map(1))
-
-
-v = assetRepo.get_assets(1)
-
-
-print(len(assetRepo.get_assets(1)))
-
-print(len(assetFileRepo.get_asset_files(1)))
